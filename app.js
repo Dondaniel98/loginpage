@@ -23,6 +23,10 @@ const USER = {
 };
 
 app.get("/", (req, res) => {
+  if (req.session.user) {
+    return res.redirect("/dashboard");
+  }
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   res.render("login", { error: null });
 });
 
@@ -41,6 +45,7 @@ app.get("/dashboard", (req, res) => {
   if (!req.session.user) {
     return res.redirect("/");
   }
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   res.render("dashboard", { user: req.session.user });
 });
 
